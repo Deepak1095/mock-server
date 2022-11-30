@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <input type="text" name="" id="todo" placeholder="todo">
+    <button id="addtodo">Add todo</button>
+    <div id="container"></div>
+</body>
+</html>
+
+<script>
+    const url= "https://server-exma.onrender.com/todo";
+  
+    window.onload=()=>{
+        getData()
+    }
+    
+    let getData=async()=>{
+      
+      let res=await fetch(url)
+      data= await res.json()
+      console.log(data)
+      renderDom(data)
+  }
+   
+
+    document.getElementById("addtodo").addEventListener("click",addtodo)
+   async function addtodo(event){
+       event.preventDefault()
+        let task=document.getElementById("todo").value;
+        let todo={
+            title:task,
+            status:false,
+            id:Date.now()+task
+        };
+
+        let res=await fetch(url,{
+            method:"POST",
+            body:JSON.stringify(todo),
+            headers:{
+                "Content-Type":"application/json"
+            }
+        })
+        getData()
+      
+    }
+
+
+    let renderDom=(data)=>{
+        
+        let cont=document.getElementById("container")
+        cont.innerHTML=null
+        data.forEach(({title,status,id})=>{
+           
+            let div=document.createElement("div")
+            let t1=document.createElement("h3")
+            t1.innerText=title;
+            let s1=document.createElement("p")
+            s1.innerText=status;
+            // let id=document.createElement("p")
+            // id.innerText=+id;
+            let removeBtn=document.createElement("button")
+            removeBtn.innerText="Remove"
+            removeBtn.onclick=()=>{
+                deletetodo(id)
+               
+            }
+            console.log(id)
+           
+            let toggleBtn=document.createElement("button")
+            toggleBtn.innerText="toogle"
+            toggleBtn.onclick=()=>{
+             toggle(id)
+            }
+            div.append(t1,s1,removeBtn,toggleBtn )
+            cont.append(div)
+
+        })
+        
+    }
+
+    let toggle=async(id)=>{
+
+let res=await fetch(`${url}/${id}`)
+res= await res.json()
+
+
+let data={status:!res.status}
+
+ await fetch(`${url}/${id}`,{
+ method:"PATCH",
+ body:JSON.stringify(data),
+  headers:{
+  "Content-Type":"application/json"
+ }
+})
+console.log(toggle)
+getData()
+
+}
+
+let deletetodo=async(id)=>{
+// await fetch(`${url}/${id}`,{
+//     method:"DELETE"
+// })
+data.splice(i)
+getData()
+}
+
+   
+     
+</script>
