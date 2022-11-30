@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <input type="text" name="" id="name" placeholder="enter your name">
+    <input type="password" name="" id="email" placeholder="enter your email">
+    <button onclick="signUp()">Submit</button>
+    
+</body>
+</html>
+<script>
+      const url= "https://server-exma.onrender.com/SignUpData";
+    let signUp=async()=>{
+        let name=document.getElementById("name").value;
+        let email=document.getElementById("email").value;
+
+        data={
+            name:name,
+            email:email,
+            id:Date.now()+name
+        }
+       
+        let res=await fetch(url,{
+            method:"POST",
+            body:JSON.stringify(data),
+            headers:{
+                "Content-Type":"application/json"
+            }
+        })
+
+        
+    }
+</script>
