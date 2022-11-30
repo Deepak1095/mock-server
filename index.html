@@ -70,7 +70,7 @@
                 deletetodo(id)
                
             }
-            console.log(id)
+            console.log(id,title)
            
             let toggleBtn=document.createElement("button")
             toggleBtn.innerText="toogle"
@@ -89,7 +89,7 @@
 let res=await fetch(`${url}/${id}`)
 res= await res.json()
 
-
+console.log(res)
 let data={status:!res.status}
 
  await fetch(`${url}/${id}`,{
@@ -105,11 +105,9 @@ getData()
 }
 
 let deletetodo=async(id)=>{
-// await fetch(`${url}/${id}`,{
-//     method:"DELETE"
-// })
-data.splice(i)
-getData()
+await fetch(`${url}/${id}`,{
+    method:"DELETE"
+})
 }
 
    
