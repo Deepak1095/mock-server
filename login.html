@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <input type="text" name="" id="name" placeholder="enter your name">
+    <input type="text" name="" id="email" placeholder="enter your email">
+    <button onclick="signUp()">Submit</button>
+    <a href="signUp.html">signUp</a>
+</body>
+</html>
+<script>
+    const url="https://server-01-12.onrender.com/SignUpData";
+   
+
+  
+    let signUp=async(id)=>{
+        
+        let name=document.getElementById("name").value;
+        let email=document.getElementById("email").value;
+
+        let res=await fetch(url)
+        res= await res.json()
+
+        for(let user of res){
+            if(user.name===name&&user.email===email){
+                window.location.assign("index.html")
+                return alert("login")
+               
+            }
+            
+         
+
+        }
+        window.location.assign("signUp.html")
+        return alert("try again")
+    }
+
+    
+
+</script>
